@@ -57,6 +57,7 @@ mix.copy('node_modules/flag-icon-css/css/flag-icon.min.css', 'public/css');
 mix.copy('node_modules/flag-icon-css/flags', 'public/flags');
 
 mix.copy('node_modules/@coreui/icons/sprites/', 'public/icons/sprites');
+
 //images
 mix.copy('resources/assets', 'public/assets');
 mix.js('resources/js/app.js', 'public/js');

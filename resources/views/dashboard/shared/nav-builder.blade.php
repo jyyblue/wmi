@@ -7,7 +7,7 @@ if(!function_exists('renderDropdown')){
     function renderDropdown($data){
         if(array_key_exists('slug', $data) && $data['slug'] === 'dropdown'){
             echo '<li class="c-sidebar-nav-dropdown">';
-            echo '<a class="c-sidebar-nav-dropdown-toggle" href="#">';
+            echo '<a class="c-sidebar-nav-dropdown-toggle" >';
             if($data['hasIcon'] === true && $data['iconType'] === 'coreui'){
                 echo '<i class="' . $data['icon'] . ' c-sidebar-nav-icon"></i>';    
             }
