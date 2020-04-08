@@ -1,5 +1,7 @@
 @extends('dashboard.base')
-
+@section('template_title')
+{{ trans('titles.dashboard') }}
+@endsection
 @section('content')
 
           <div class="container-fluid">

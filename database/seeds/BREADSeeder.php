@@ -55,12 +55,19 @@ class BREADSeeder extends Seeder
             'relation_table' => 'status',
             'relation_column' => 'name'
         ]);
-        $role = Role::where('name', '=', 'guest')->first();
+        $role = Role::where('name', '=', 'admin')->first();
         Permission::create(['name' => 'browse bread '   . $formId]); 
         Permission::create(['name' => 'read bread '     . $formId]); 
         Permission::create(['name' => 'edit bread '     . $formId]); 
         Permission::create(['name' => 'add bread '      . $formId]); 
         Permission::create(['name' => 'delete bread '   . $formId]); 
+        $role->givePermissionTo('browse bread '     . $formId);
+        $role->givePermissionTo('read bread '       . $formId);
+        $role->givePermissionTo('edit bread '       . $formId);
+        $role->givePermissionTo('add bread '        . $formId);
+        $role->givePermissionTo('delete bread '     . $formId);
+
+        $role = Role::where('name', '=', 'dev')->first();
         $role->givePermissionTo('browse bread '     . $formId);
         $role->givePermissionTo('read bread '       . $formId);
         $role->givePermissionTo('edit bread '       . $formId);

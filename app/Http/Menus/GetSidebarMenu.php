@@ -39,6 +39,10 @@ class GetSidebarMenu implements MenuInterface{
         $this->getMenuFromDB($menuId, 'admin');
     }
 
+    private function getDevMenu( $menuId ){
+        $this->getMenuFromDB($menuId, 'dev');
+    }
+
     public function get($role, $menuId=2){
         $this->getMenuFromDB($menuId, $role);
         $rfd = new RenderFromDatabaseData;
