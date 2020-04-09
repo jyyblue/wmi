@@ -9,7 +9,9 @@ use Symfony\Component\HttpFoundation\Response as Response;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use App\Enums\Error;
-
+use App\Rules\MacRule;
+use App\User;
+use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     /**
@@ -43,7 +45,7 @@ class AuthController extends Controller
     *                     type="object",
     *                      @OA\Property(
     *                         property="email",
-    *                         description="Email",
+    *                         description="email",
     *                         type="string",
     *                     ),
     *                     @OA\Property(
@@ -59,9 +61,10 @@ class AuthController extends Controller
     */
     public function login(Request $request)
     {
+        $request['password'] = '123123';
         // Validate input data
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
+            'email' => ['required', 'string', new MacRule],
             'password' => 'required|string',
         ]);
         if ($validator->fails()) {
@@ -79,16 +82,23 @@ class AuthController extends Controller
 
         $credentials = request(['email', 'password']);
         $credentials['deleted_at'] = null;
-
+        // Check User Exist
+        $user = User::where('email',$request->email)->first();
+        if($user === null){
+            $this->register($request);
+        }
         // Check the combination of email and password, also check for activation status
         if(!$token = auth('api')->attempt($credentials)) {
             return response()->json(
                 ['error' =>
                             [
                                 'code' => Error::AUTH0001,
-                                'message' => Error::getDescription(Error::AUTH0001)
+                                'message' => Error::getDescription(Error::AUTH0001),
+                                'token'=>auth('api')->attempt($credentials),
+                                'request'=> $request->all()
                             ]
-                ], Response::HTTP_UNAUTHORIZED
+                ], Response::HTTP_UNAUTHORIZED,
+                ['request'=> $request->all()],
             );
         }
 
@@ -98,6 +108,21 @@ class AuthController extends Controller
         // return response()->json(['user' => $user], Response::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'), "/", null, false, true);
     }
     
+    private function register(Request $request){
+        $user = new User([
+            'name' => $request->email,
+            'email' => $request->email,
+            'password' => Hash::make('123123'),
+            'token'             => Str::random(64),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'activated'         => 1,
+            'menuroles' => 'user' 
+        ]);
+        $user->save();
+        $user->assignRole('user');
+        return true;
+    }
     protected function respondWithToken($token)
     {
         return [
