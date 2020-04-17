@@ -103,6 +103,9 @@ class AuthController extends Controller
         }
 
         $user = auth('api')->user();
+        $user->updated_at = date('Y-m-d H:i:s');
+        $user->active = 1;
+        $user->save();
         // $user['roles'] = $user->getRoleNames();
         return $this->respondWithToken($token);
         // return response()->json(['user' => $user], Response::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'), "/", null, false, true);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Yajra\Datatables\Datatables;
 
 class UsersController extends Controller
 {
@@ -89,5 +90,19 @@ class UsersController extends Controller
             $user->delete();
         }
         return redirect()->route('users.index');
+    }
+
+    public function getList(Request $request){
+        $data = User::where('menuroles','user')->get();
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('view', function($row){
+                $url = url('/users/' . $row->id);
+                $btn = '<a href="'.$url.'" class="btn btn-block btn-primary">View</a>';
+
+                return $btn;
+        })
+        ->rawColumns(['view'])
+        ->make(true);
     }
 }

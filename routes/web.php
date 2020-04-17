@@ -12,8 +12,9 @@
 */
 
 Route::group(['middleware' => ['get.menu']], function () {
-    Route::get('/dashboard', function () {           return view('dashboard.homepage'); });
-    Route::get('/', function () {           return view('welcome'); });
+    Route::get('/dashboard', 'admin\DashboardController@index');
+    Route::post('/dashboard/getData','admin\DashboardController@getData')->name('dashboard.data');
+    Route::get('/', function () {  return view('welcome'); });
     // Route::get('/', 'WelcomeController@welcome')->name('welcome');
 
     Route::group(['middleware' => ['role:user,dev']], function () {
@@ -76,9 +77,9 @@ Route::group(['middleware' => ['get.menu']], function () {
     ]);
 
     Route::group(['middleware' => ['role:admin,dev']], function () {
-        Route::get('/dashboard', function () {           return view('dashboard.homepage'); });
         Route::resource('bread',  'BreadController');   //create BREAD (resource)
         Route::resource('users',        'UsersController')->except( ['create', 'store'] );
+        Route::post('users/getlist', 'UsersController@getList')->name('users.getlist');
         Route::resource('roles',        'RolesController');
         Route::resource('mail',        'MailController');
         Route::get('prepareSend/{id}',        'MailController@prepareSend')->name('prepareSend');

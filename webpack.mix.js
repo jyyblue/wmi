@@ -11,8 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-//mix.js('resources/js/app.js', 'public/js')
-//mix.sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/dashboard.js', 'public/js')
+mix.sass('resources/sass/app.scss', 'public/css');
 
 //**************** CSS ******************** 
 //css
@@ -60,5 +61,3 @@ mix.copy('node_modules/@coreui/icons/sprites/', 'public/icons/sprites');
 
 //images
 mix.copy('resources/assets', 'public/assets');
-mix.js('resources/js/app.js', 'public/js');
-mix.sass('resources/sass/app.scss', 'public/css');

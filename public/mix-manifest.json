@@ -1,10 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/style.css": "/css/style.css",
+    "/js/dashboard.js": "/js/dashboard.js",
     "/js/media.js": "/js/media.js",
     "/js/media-cropp.js": "/js/media-cropp.js",
     "/js/menu-create.js": "/js/menu-create.js",
-    "/css/style.css": "/css/style.css",
-    "/css/app.css": "/css/app.css",
     "/js/menu-edit.js": "/js/menu-edit.js",
     "/css/pace.min.css": "/css/pace.min.css",
     "/css/coreui-chartjs.css": "/css/coreui-chartjs.css",
