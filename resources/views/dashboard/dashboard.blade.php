@@ -3,7 +3,6 @@
 {{ trans('titles.dashboard') }}
 @endsection
 @section('content')
-
           <div class="container-fluid">
             <div class="fade-in">
               <div class="row">
@@ -11,15 +10,14 @@
                   <div class="card text-white bg-primary">
                     <div class="card-body pb-0">
                       <div class="btn-group float-right">
-                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-transparent p-0" type="button" >
                           <svg class="c-icon">
-                            <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-settings"></use>
+                            <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-location-pin"></use>
                           </svg>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a></div>
                       </div>
                       <div class="text-value-lg" id="total_Chat1"></div>
-                      <div>Members online</div>
+                      <div>Members online last 5 min</div>
                     </div>
                     <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                       <canvas class="chart" id="card-chart1" height="70"></canvas>
@@ -36,7 +34,7 @@
                         </svg>
                       </button>
                       <div class="text-value-lg" id="total_Chat2"></div>
-                      <div>Members online</div>
+                      <div>Members online last 1 hour</div>
                     </div>
                     <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                       <canvas class="chart" id="card-chart2" height="70"></canvas>
@@ -52,7 +50,7 @@
                   <div class="row">
                     <div class="col-sm-5">
                       <h4 class="card-title mb-0">Traffic</h4>
-                      <div class="small text-muted">September 2019</div>
+                      <div class="small text-muted"></div>
                     </div>
                     <!-- /.col-->
                     <div class="col-sm-7 d-none d-md-block">
@@ -62,13 +60,13 @@
                         </svg>
                       </button>
                       <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                        <label class="btn btn-outline-secondary">
+                        <label id="b_day" class="btn btn-outline-secondary active" onclick="getOldData('day')">
                           <input id="option1" type="radio" name="options" autocomplete="off"> Day
                         </label>
-                        <label class="btn btn-outline-secondary active">
+                        <label id="b_month"  class="btn btn-outline-secondary" onclick="getOldData('month')">
                           <input id="option2" type="radio" name="options" autocomplete="off" checked=""> Month
                         </label>
-                        <label class="btn btn-outline-secondary">
+                        <label id="b_year"  class="btn btn-outline-secondary" onclick="getOldData('year')">
                           <input id="option3" type="radio" name="options" autocomplete="off"> Year
                         </label>
                       </div>
@@ -76,7 +74,7 @@
                     <!-- /.col-->
                   </div>
                   <!-- /.row-->
-                  <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
+                  <div id="div-main-chat" class="c-chart-wrapper" style="height:300px;margin-top:40px;">
                     <canvas class="chart" id="main-chart" height="300"></canvas>
                   </div>
                 </div>
@@ -611,10 +609,19 @@
     yMax:10,
     total:0
   };
+  var chat3Data= {
+    data1:[],
+    data2:[],
+    data3:[],
+  };
 
   function updateChart(){
     $('#total_Chat1').text(chat1Data['total']);
     $('#total_Chat2').text(chat2Data['total']);
+
+    $('#div-main-chat').empty();
+    $('#div-main-chat').append('<canvas class="chart" id="main-chart" height="300"></canvas>');
+    
     var cardChart1 = new Chart(document.getElementById('card-chart1'), {
         type: 'line',
         data: {
@@ -721,36 +728,37 @@
         }
       })
       // eslint-disable-next-line no-unused-vars
+
     var mainChart = new Chart(document.getElementById('main-chart'), {
       type: 'line',
       data: {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        labels: chat3Data['xlabel'],
         datasets: [
           {
-            label: 'My First dataset',
+            label: chat3Data['datalabel'],
             backgroundColor: coreui.Utils.hexToRgba(coreui.Utils.getStyle('--info'), 10),
             borderColor: coreui.Utils.getStyle('--info'),
             pointHoverBackgroundColor: '#fff',
             borderWidth: 2,
-            data: [165, 180, 70, 69, 77, 57, 125, 165, 172, 91, 173, 138, 155, 89, 50, 161, 65, 163, 160, 103, 114, 185, 125, 196, 183, 64, 137, 95, 112, 175]
+            data: chat3Data['data']
           },
-          {
-            label: 'My Second dataset',
-            backgroundColor: 'transparent',
-            borderColor: coreui.Utils.getStyle('--success'),
-            pointHoverBackgroundColor: '#fff',
-            borderWidth: 2,
-            data: [92, 97, 80, 100, 86, 97, 83, 98, 87, 98, 93, 83, 87, 98, 96, 84, 91, 97, 88, 86, 94, 86, 95, 91, 98, 91, 92, 80, 83, 82]
-          },
-          {
-            label: 'My Third dataset',
-            backgroundColor: 'transparent',
-            borderColor: coreui.Utils.getStyle('--danger'),
-            pointHoverBackgroundColor: '#fff',
-            borderWidth: 1,
-            borderDash: [8, 5],
-            data: [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
-          }
+          // {
+          //   label: 'My Second dataset',
+          //   backgroundColor: 'transparent',
+          //   borderColor: coreui.Utils.getStyle('--success'),
+          //   pointHoverBackgroundColor: '#fff',
+          //   borderWidth: 2,
+          //   data: [92, 97, 80, 100, 86, 97, 83, 98, 87, 98, 93, 83, 87, 98, 96, 84, 91, 97, 88, 86, 94, 86, 95, 91, 98, 91, 92, 80, 83, 82]
+          // },
+          // {
+          //   label: 'My Third dataset',
+          //   backgroundColor: 'transparent',
+          //   borderColor: coreui.Utils.getStyle('--danger'),
+          //   pointHoverBackgroundColor: '#fff',
+          //   borderWidth: 1,
+          //   borderDash: [8, 5],
+          //   data: [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+          // }
         ]
       },
       options: {
@@ -768,8 +776,8 @@
             ticks: {
               beginAtZero: true,
               maxTicksLimit: 5,
-              stepSize: Math.ceil(250 / 5),
-              max: 250
+              stepSize: Math.ceil( chat3Data['yMax'] / 5),
+              max:  chat3Data['yMax']
             }
           }]
         },
@@ -791,7 +799,6 @@
         }
       }
     })
-
   }
 
   function getData(){
@@ -807,8 +814,6 @@
             var min5 = data['min5'];
 
             var hour1 = data['hour1'];
-            var _t5min = 0;
-            var _t1hour = 0;
             if(min5.length  > 0){
               var c_time = data['c_time'];
               var _min = 0;
@@ -822,19 +827,17 @@
                   var time = parseInt(item['timekey']);
                   var _ucount = item['count'];
                   if(time+i == c_time){
-                    value = _ucount;
-                    break;
+                    value++;
                   }
                 }
                 _chartData.push(value);
-                _t5min += value;
                 if(_min > value) _min = value;
                 if(_max < value) _max = value;
               }
               chat1Data['data'] = _chartData;
               chat1Data['yMin'] = _min;
               chat1Data['yMax'] = _max + 1;
-              chat1Data['total'] = _t5min;
+              chat1Data['total'] = data['totalMin5'];
 
             }
             if(hour1.length  > 0){
@@ -848,21 +851,18 @@
                 for(var idx=0; idx < hour1.length; idx++){
                   var item = hour1[idx];
                   var time = parseInt(item['timekey']);
-                  var _ucount = item['count'];
                   if(time+i == c_time){
-                    value = _ucount;
-                    break;
+                    value++;
                   }
                 }
                 _chartData.push(value);
-                _t1hour += value;
                 if(_min > value) _min = value;
                 if(_max < value) _max = value;
               }
               chat2Data['data'] = _chartData;
               chat2Data['yMin'] = _min;
               chat2Data['yMax'] = _max + 1;
-              chat2Data['total'] = _t1hour;
+              chat2Data['total'] = data['totalHour1'];
             }
             updateChart();
         },
@@ -874,5 +874,116 @@
   $(document).ready(function(){
     getData();
   });
+  function getOldData(period){
+    console.log(period);
+    $('#b_day').removeClass('active');
+    $('#b_month').removeClass('active');
+    $('#b_year').removeClass('active');
+    $('#b_' + period).addClass('active');
+    var data = {};
+    data.period = period;
+    data._token = '{{csrf_token()}}';
+    $.ajax({
+        url: '{!! route('dashboard.olddata') !!}',
+        data: data,
+        type: 'POST',
+        success: function (data) {
+          var _data = JSON.parse(data);
+          var _chartData = _data['chartdata'];
+          var total = _data['total'];
+          var chartData = [];
+          var xlabel = [];
+          if(period == 'day'){
+            if(_chartData.length  > 0){
+              var _min = 0;
+              var _max = 0;
+              for(var i=0; i < 24; i++){
+                xlabel.push(i);
+                var value = 0;
+                for(var idx=0; idx < _chartData.length; idx++){
+                  var item = _chartData[idx];
+                  var time = parseInt(item['timekey']);
+                  if(time == i){
+                    value++;
+                  }
+                }
+                chartData.push(value);
+                if(_min > value) _min = value;
+                if(_max < value) _max = value;
+              }
+              chat3Data['data'] = chartData;
+              chat3Data['yMin'] = _min;
+              chat3Data['yMax'] = _max + 1;
+              chat3Data['total'] = total;
+              chat3Data['xlabel'] = xlabel;
+              chat3Data['datalabel'] = 'Hour';
+              console.log(chat3Data);
+            }
+          }
+          if(period == 'month'){
+            if(_chartData.length  > 0){
+              var days = parseInt(_data['days']);
+              var _min = 0;
+              var _max = 0;
+              console.log(days);
+              for(var i=1; i <= days; i++){
+                xlabel.push(i);
+                var value = 0;
+                for(var idx=0; idx < _chartData.length; idx++){
+                  var item = _chartData[idx];
+                  var time = parseInt(item['timekey']);
+                  if(time == i){
+                    value++;
+                  }
+                }
+                chartData.push(value);
+                if(_min > value) _min = value;
+                if(_max < value) _max = value;
+              }
+              chat3Data['data'] = chartData;
+              chat3Data['yMin'] = _min;
+              chat3Data['yMax'] = _max + 1;
+              chat3Data['total'] = total;
+              chat3Data['xlabel'] = xlabel;
+              chat3Data['datalabel'] = 'Day';
+              console.log(chat3Data);
+            }
+          }
+
+          if(period == 'year'){
+            if(_chartData.length  > 0){
+              var _min = 0;
+              var _max = 0;
+              for(var i=1; i <= 12; i++){
+                xlabel.push(i);
+                var value = 0;
+                for(var idx=0; idx < _chartData.length; idx++){
+                  var item = _chartData[idx];
+                  var time = parseInt(item['timekey']);
+                  if(time == i){
+                    value++;
+                  }
+                }
+                chartData.push(value);
+                if(_min > value) _min = value;
+                if(_max < value) _max = value;
+              }
+              chat3Data['data'] = chartData;
+              chat3Data['yMin'] = _min;
+              chat3Data['yMax'] = _max + 1;
+              chat3Data['total'] = total;
+              chat3Data['xlabel'] = xlabel;
+              chat3Data['datalabel'] = 'Month';
+              console.log(chat3Data);
+            }
+          }
+          updateChart();
+        },
+        error: function(){
+
+        }
+      });
+
+  }
 </script>
 @endsection

@@ -23,15 +23,16 @@ Route::group([
     Route::post('login', 'Api\AuthController@login');
     // Route::post('register', 'Api\AuthController@register');
     // Route::post('activate', 'Api\AuthController@activate');
+    Route::post('sendData', 'Api\DataController@sendData');
 
     // // Requires Authorization
-    // Route::group([
-    //     'middleware' => 'jwt.auth'
-    // ], function() {
-    //     Route::get('logout', 'Api\AuthController@logout');
-    //     Route::get('getUser', 'Api\AuthController@getUser');
-    //     Route::patch('password/change', 'AuthController@changePassword');
-    // });
+    Route::group([
+        'middleware' => 'jwt.auth'
+    ], function() {
+        // Route::get('logout', 'Api\AuthController@logout');
+        Route::get('getUser', 'Api\AuthController@getUser');
+        Route::patch('password/change', 'AuthController@changePassword');
+    });
 
     // // Limit number of requests per seconds, configured in app/Http/Kernel.php
     // Route::group([

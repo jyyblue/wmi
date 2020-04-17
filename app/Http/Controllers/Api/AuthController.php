@@ -113,7 +113,7 @@ class AuthController extends Controller
     
     private function register(Request $request){
         $user = new User([
-            'name' => $request->email,
+            'name' => $request->get('name', $request->email),
             'email' => $request->email,
             'password' => Hash::make('123123'),
             'token'             => Str::random(64),
@@ -128,10 +128,11 @@ class AuthController extends Controller
     }
     protected function respondWithToken($token)
     {
-        return [
-            'token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
-        ];
+        return ['token'=>$token];
+        // return [
+        //     'token' => $token,
+        //     'token_type'   => 'bearer',
+        //     'expires_in' => auth('api')->factory()->getTTL() * 60
+        // ];
     }
 }
