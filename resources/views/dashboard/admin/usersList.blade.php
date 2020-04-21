@@ -20,6 +20,7 @@
                             <th>No</th>
                             <th>Mac Address</th>
                             <th></th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -77,6 +78,7 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'email', name: 'email'},
             {data: 'view', name: 'view', orderable: false, searchable: false},
+            {data: 'track', name: 'view', orderable: false, searchable: false},
         ]
     });
     

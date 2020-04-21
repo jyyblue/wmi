@@ -102,7 +102,14 @@ class UsersController extends Controller
 
                 return $btn;
         })
-        ->rawColumns(['view'])
+        ->addColumn('track', function($row){
+                $url = url('/user/track/' . $row->id);
+                $btn = '<a href="'.$url.'" class="btn btn-block btn-primary">Track</a>';
+                return $btn;
+        })
+        ->rawColumns(['view','track'])
         ->make(true);
     }
+
+
 }

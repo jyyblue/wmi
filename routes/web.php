@@ -82,9 +82,12 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::resource('users',        'UsersController')->except( ['create', 'store'] );
         Route::post('users/getlist', 'UsersController@getList')->name('users.getlist');
         Route::any('user/report', 'admin\UserReportController@index')->name('user.report');
+        Route::get('user/track/{user_id}', 'admin\UserReportController@showTrack');
+        Route::post('track/getTrackData', 'admin\UserReportController@getTrackData')->name('track.getData');
         Route::any('hosts/search', 'admin\HostController@index')->name('hosts.search');
         Route::any('hosts/report', 'admin\HostReportController@index')->name('hosts.report');
         Route::any('config/settings', 'admin\SettingController@index')->name('config.settings');
+
         Route::resource('roles',        'RolesController');
         Route::resource('mail',        'MailController');
         Route::get('prepareSend/{id}',        'MailController@prepareSend')->name('prepareSend');
