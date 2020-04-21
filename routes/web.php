@@ -13,8 +13,8 @@
 
 Route::group(['middleware' => ['get.menu']], function () {
     Route::get('/dashboard', 'admin\MainPageController@index');
-    Route::post('/dashboard/getData','DashboardController@getData')->name('dashboard.data');
-    Route::post('/dashboard/olddata','DashboardController@getOldData')->name('dashboard.olddata');
+    Route::post('/dashboard/getData','admin\MainPageController@getData')->name('dashboard.data');
+    Route::post('/dashboard/olddata','admin\MainPageController@getOldData')->name('dashboard.olddata');
     Route::get('/', function () {  return view('welcome'); });
     // Route::get('/', 'WelcomeController@welcome')->name('welcome');
 
