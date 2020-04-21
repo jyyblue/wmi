@@ -11,23 +11,12 @@ class MainPageController extends Controller
 {
     //
     public function index(){
-        $newTrack = new Track();
-        $newTrack->user_id = rand(1,10);
-        $newTrack->created_at = time();
-        $newTrack->data = '';
-        $newTrack->save();
         return view('dashboard.dashboard');
     }
 
     public function getData(){
         $before1hour = date('Y-m-d H:i:s', strtotime('-1 hour'));
         $before5min  = date('Y-m-d H:i:s', strtotime("-5 minutes"));
-
-        $newTrack = new Track();
-        $newTrack->user_id = rand(1,10);
-        $newTrack->created_at = time();
-        $newTrack->data = '';
-        $newTrack->save();
 
         $activehour = Track::where('created_at', '>=', $before1hour)
         ->select([DB::raw(' 6 * HOUR( created_at ) + FLOOR( MINUTE( created_at ) / 10 ) AS timekey'),

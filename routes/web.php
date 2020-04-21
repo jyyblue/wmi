@@ -87,6 +87,7 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::any('hosts/search', 'admin\HostController@index')->name('hosts.search');
         Route::any('hosts/report', 'admin\HostReportController@index')->name('hosts.report');
         Route::any('config/settings', 'admin\SettingController@index')->name('config.settings');
+        Route::post('config/settings/update', 'admin\SettingController@update')->name('config.settings.update');
 
         Route::resource('roles',        'RolesController');
         Route::resource('mail',        'MailController');
