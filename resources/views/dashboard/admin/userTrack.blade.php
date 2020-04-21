@@ -5,23 +5,22 @@
 @endsection
 
 @section('content')
-<input type="hidden" id="user_id" value="{{$user->id}}"/>
+
         <div class="container-fluid">
           <div class="animated fadeIn">
             <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                      <i class="fa fa-align-justify"></i>{{ __('Track Data') }}  </div>
-                      
+                      <i class="fa fa-align-justify"></i>{{ __('Track Data') }} | {{$user->email}}  </div>
+                      <input type="hidden" id="user_id" value="{{$user->id}}"/>                      
                     <div class="card-body">
-                        <table id="tracklist" class="table table-responsive-sm table-striped">
+                        <table id="tracklist" class="table table-responsive-sm">
                         <thead>
                           <tr>
                             <th>No</th>
                             <th>Time</th>
                             <th>Active App</th>
-                            <th></th>
                           </tr>
                         </thead>
                         <tbody>

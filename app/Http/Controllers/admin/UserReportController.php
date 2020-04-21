@@ -23,7 +23,7 @@ class UserReportController extends Controller
 
     public function getTrackData(Request $request){
         $user_id = $request->get('user_id');
-        $trackdata = Track::where('user_id', $user_id)->get();
+        $trackdata = Track::where('user_id', $user_id)->where('created_at', '>', date('Y-m-d 00:00:00'))->get();
         return Datatables::of($trackdata)
         ->addIndexColumn()
         ->addColumn('app', function($row){
