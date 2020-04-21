@@ -29,9 +29,9 @@ Route::group([
         'middleware' => 'jwt.auth'
     ], function() {
         // Route::get('logout', 'Api\AuthController@logout');
-        Route::post('sendData', 'Api\DataController@sendData');
         Route::get('getUser', 'Api\AuthController@getUser');
         Route::patch('password/change', 'AuthController@changePassword');
+        Route::post('sendData', 'Api\DataController@sendData');
     });
 
     // // Limit number of requests per seconds, configured in app/Http/Kernel.php

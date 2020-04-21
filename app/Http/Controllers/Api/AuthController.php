@@ -12,6 +12,7 @@ use App\Enums\Error;
 use App\Rules\MacRule;
 use App\User;
 use Illuminate\Support\Str;
+use App\Models\Setting;
 class AuthController extends Controller
 {
     /**
@@ -128,11 +129,15 @@ class AuthController extends Controller
     }
     protected function respondWithToken($token)
     {
-        return ['token'=>$token];
-        // return [
-        //     'token' => $token,
-        //     'token_type'   => 'bearer',
-        //     'expires_in' => auth('api')->factory()->getTTL() * 60
-        // ];
+        $setting = Setting::select(['name','value'])->get();
+        $_setting = '';
+        foreach($setting as $item){
+            $_setting .= ($item->name.":".$item->value.',');
+        }
+        $ret = 'token:'.$token.','.$_setting;
+        return [
+            'data' => $ret,
+            // 'expires_in' => auth('api')->factory()->getTTL() * 60
+        ];
     }
 }
