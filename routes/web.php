@@ -12,9 +12,9 @@
 */
 
 Route::group(['middleware' => ['get.menu']], function () {
-    Route::get('/dashboard', 'admin\DashboardController@index');
-    Route::post('/dashboard/getData','admin\DashboardController@getData')->name('dashboard.data');
-    Route::post('/dashboard/olddata','admin\DashboardController@getOldData')->name('dashboard.olddata');
+    Route::get('/dashboard', 'admin\MainPageController@index');
+    Route::post('/dashboard/getData','DashboardController@getData')->name('dashboard.data');
+    Route::post('/dashboard/olddata','DashboardController@getOldData')->name('dashboard.olddata');
     Route::get('/', function () {  return view('welcome'); });
     // Route::get('/', 'WelcomeController@welcome')->name('welcome');
 
@@ -85,8 +85,6 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::any('hosts/search', 'admin\HostController@index')->name('hosts.search');
         Route::any('hosts/report', 'admin\HostReportController@index')->name('hosts.report');
         Route::any('config/settings', 'admin\SettingController@index')->name('config.settings');
-        Route::any('user/report', 'admin\UserReportController@index')->name('user.report');
-        Route::any('user/report', 'admin\UserReportController@index')->name('user.report');
         Route::resource('roles',        'RolesController');
         Route::resource('mail',        'MailController');
         Route::get('prepareSend/{id}',        'MailController@prepareSend')->name('prepareSend');
