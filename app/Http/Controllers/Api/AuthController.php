@@ -13,6 +13,8 @@ use App\Rules\MacRule;
 use App\User;
 use Illuminate\Support\Str;
 use App\Models\Setting;
+use App\Models\Profile;
+
 class AuthController extends Controller
 {
     /**
@@ -107,6 +109,16 @@ class AuthController extends Controller
         $user->updated_at = date('Y-m-d H:i:s');
         $user->active = 1;
         $user->save();
+
+        $profile = $user->profile;
+        if(empty($profile)){
+            $profile = new Profile();
+        }
+        $profile->user_id = $user->id;
+        $profile->pc_name = $request->get('name', '');
+        $profile->ip_address = $request->get('ip', '');
+        $user->profile()->save($profile);
+
         // $user['roles'] = $user->getRoleNames();
         return $this->respondWithToken($token);
         // return response()->json(['user' => $user], Response::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'), "/", null, false, true);
@@ -114,7 +126,7 @@ class AuthController extends Controller
     
     private function register(Request $request){
         $user = new User([
-            'name' => $request->get('name', $request->email),
+            'name' => $request->get('username', $request->email),
             'email' => $request->email,
             'password' => Hash::make('123123'),
             'token'             => Str::random(64),

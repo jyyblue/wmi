@@ -72,4 +72,8 @@ class User extends Authenticatable implements  JWTSubject
     public function track(){
         return $this->hasMany('App\Models\Track');
     }
+
+    public function profile(){
+        return $this->hasOne('App\Models\Profile');
+    }
 }
