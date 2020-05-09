@@ -9,6 +9,6 @@ class HostController extends Controller
 {
     //
     public function index(){
-        return view('dashboard.admin.host.index');
+        return view('dashboard.admin.userTrack');
     }
 }
