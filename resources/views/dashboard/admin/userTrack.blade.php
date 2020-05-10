@@ -14,8 +14,15 @@
 	.card-header *{
 		display : inline;
 	}
-	.arrow, .pg-link{
-		border : solid 1px #000;
+	.arrow{
+		padding:10px;
+	}
+	.pg-link{
+		padding:10px;
+	}
+	#today{
+		background: #a1e6fb;
+    	font-weight: 700;
 	}
 </style>
 @endsection
